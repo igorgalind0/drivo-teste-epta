@@ -1,0 +1,24 @@
+# Dependências (cada app instala as suas com npm install)
+node_modules/
+
+# Builds
+dist/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Variáveis de ambiente (só os .env.example vão para o repositório)
+.env
+.env.local
+.env.*.local
+
+# Logs e sistema
+*.log
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
