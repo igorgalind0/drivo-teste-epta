@@ -1,4 +1,4 @@
-import type { FuelType, VehicleType } from './types';
+import type { FuelType, Vehicle, VehicleType } from './types';
 
 export const FUEL_LABELS: Record<FuelType, string> = {
   FLEX: 'Flex',
@@ -28,7 +28,6 @@ const toOptions = <T extends string>(labels: Record<T, string>) =>
 export const FUEL_OPTIONS = toOptions(FUEL_LABELS);
 export const TYPE_OPTIONS = toOptions(TYPE_LABELS);
 
-/** Ícone usado na capa do card, conforme o tipo do veículo. */
 export const TYPE_ICONS: Record<VehicleType, string> = {
   AUTOMOVEL: 'directions_car',
   MOTOCICLETA: 'two_wheeler',
@@ -62,7 +61,6 @@ const COLOR_SWATCHES: Record<string, string> = {
   roxa: '#bf5af2',
 };
 
-/** Cor da bolinha ao lado do nome da cor ("Prata" -> cinza claro). */
 export function colorSwatch(color: string) {
   const key = color
     .normalize('NFD')
@@ -70,4 +68,30 @@ export function colorSwatch(color: string) {
     .toLowerCase()
     .split(/\s+/)[0];
   return COLOR_SWATCHES[key] ?? '#8e8e93';
+}
+
+const CAR_COVERS = [
+  '/images/vehicles/car-1.jpg',
+  '/images/vehicles/car-2.jpg',
+  '/images/vehicles/car-3.jpg',
+];
+
+function hashString(text: string) {
+  let hash = 0;
+  for (const char of text) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return hash;
+}
+
+export function vehicleCover(vehicle: Pick<Vehicle, 'id' | 'type'>) {
+  switch (vehicle.type) {
+    case 'AUTOMOVEL':
+      return CAR_COVERS[hashString(vehicle.id) % CAR_COVERS.length];
+    case 'CAMINHONETE':
+    case 'UTILITARIO':
+      return '/images/vehicles/pickup.jpg';
+    case 'MOTOCICLETA':
+      return '/images/vehicles/motorcycle.jpg';
+    default:
+      return null;
+  }
 }
