@@ -42,5 +42,17 @@ services:
       timeout: 5s
       retries: 20
 
+  web:
+    build:
+      context: ./web
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:3333
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    depends_on:
+      api:
+        condition: service_healthy
+
 volumes:
   pgdata:
